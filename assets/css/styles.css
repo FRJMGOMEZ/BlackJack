@@ -1,0 +1,36 @@
+html,body{
+    margin:0px;
+    background-color:  #2b452e !important;
+}
+
+
+.main-header{
+    text-align: center;
+    color:white;
+    background: black;
+    padding:20px;
+    font-size:25px;
+}
+
+.card{
+    height: 18rem;
+    width:14rem;
+    position: relative;
+    left:100px;
+    margin-left: -75px;;
+}
+
+.row{
+  background-color: inherit;  
+}
+
+.player-name{
+    color:white;
+    margin:1rem;
+}
+
+.player{
+    height:21rem  }
+
+
+

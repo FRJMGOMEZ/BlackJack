@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Black-jack</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <header class="main-header">
+        Black-jack
+    </header>
+
+    <div class="row mt-2 d-flex justify-content-center">
+        <div class="col-text-center">
+            <button class="btn-primary">Nuevo juego</button>
+            <button class="btn-primary">Pedir carta</button>
+            <button class="btn-danger">Detener</button>
+        </div>
+    </div>
+
+    <div class="row container player">
+        <div class="col">
+                <h1 class="player-name" >Jugador 1<small id="player-games" >  </small></h1>
+                <div class="d-flex justify-content-center" id="jugador-cartas">
+                    
+                </div>
+        </div>
+    </div>
+     <div class="row container player">
+        <div class="col">
+                <h1 class="player-name">Ordenador<small id="computer-games"> </small></h1>
+                <div class="d-flex justify-content-center" id="computer">
+                   
+                </div>
+        </div>
+    </div>
+    <script src="assets/js/underscore.min.js"></script>
+    <script src="assets/js/game.js" ></script>
+</body>
+</html>
