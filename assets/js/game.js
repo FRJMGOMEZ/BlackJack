@@ -15,10 +15,10 @@ let detener = buttons[2];
 let player1 = { name: 'Player1', sum: 0, won: 0 };
 let computer = { name: 'Computer', sum: 0, won: 0 };
 
-let playerGames = document.getElementById('player-games');
-playerGames.nativeElement.innerHTML = player1.won;
-let computerGames = document.getElementById('computer-games');
-computerGames.nativeElement.innerHTML = computer.won;
+let playerGames = document.getElementById('playerGames');
+playerGames.innerText =` -- ${player1.won}`;
+let computerGames = document.getElementById('computerGames');
+computerGames.innerText = ` -- ${computer.won}`;
 
 let currentPlayer = player1;
 
@@ -55,8 +55,13 @@ const createDeck = () => {
 const getCard = async () => {
     let randomCard = await deck[Math.floor(Math.random() * (deck.length))];
     deck = deck.filter((card)=>card != randomCard);
-    renderCard(randomCard);
-    sumCard(randomCard); 
+    if(deck.length > 0){
+        renderCard(randomCard);
+        sumCard(randomCard);
+    }else{
+        alert('La baraja se quedó sin cartas, debes iniciar un nuevo juego.')
+    }
+     
 }
 
 
@@ -148,8 +153,9 @@ const playerWon = (player) => {
     let otherPlayer = player1.name === player.name ? computer : player1;
     player.won++;
     alert(`${otherPlayer.name} PIERDE, ${player.name} GANA`);
-    playerGames.nativeElement.innerHTML = player1.won;
-    computerGames.nativeElement.innerHTML = computer.won;
+    playerGames.innerText = ` -- ${player1.won}`;
+    computerGames.innerText = ` -- ${computer.won}`;
+
     restore();
 }
 
