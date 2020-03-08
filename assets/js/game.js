@@ -15,10 +15,15 @@ let detener = buttons[2];
 let player1 = { name: 'Player1', sum: 0, won: 0 };
 let computer = { name: 'Computer', sum: 0, won: 0 };
 
-let playerGames = document.getElementById('playerGames');
+let playerGames = document.getElementById('player-games');
 playerGames.innerText =` -- ${player1.won}`;
-let computerGames = document.getElementById('computerGames');
+let computerGames = document.getElementById('computer-games');
 computerGames.innerText = ` -- ${computer.won}`;
+
+let playerSum = document.getElementById('player-sum');
+let computerSum = document.getElementById('computer-sum');
+playerSum.innerText = player1.sum;
+computerSum.innerText = computer.sum;
 
 let currentPlayer = player1;
 
@@ -35,6 +40,26 @@ detener.addEventListener('click', () => {
     currentPlayer = computer;
     computerPlay();
 })
+
+/// RENDER ////
+const renderCard = (card) => {
+    let divPlayer1 = document.getElementById('jugador-cartas');
+    let divComputer = document.getElementById('computer');
+
+    let img = document.createElement('img');
+    img.src = `assets/cartas/${card}.png`;
+    img.classList.add('card');
+
+    if (currentPlayer.name === 'Player1') {
+        divPlayer1.appendChild(img);
+    } else {
+        divComputer.appendChild(img);
+    }
+}
+const renderSum= ()=>{
+    playerSum.innerText = player1.sum;
+    computerSum.innerText = computer.sum;
+}
 
 
 ///// CREATING DECK ///////
@@ -65,44 +90,17 @@ const getCard = async () => {
 }
 
 
-/// RENDER ////
-const renderCard = (card) => {
-    let divPlayer1 = document.getElementById('jugador-cartas');
-    let divComputer = document.getElementById('computer');
-
-    let img = document.createElement('img');
-    img.src = `assets/cartas/${card}.png`;
-    img.classList.add('card');
-
-    if (currentPlayer.name === 'Player1') {
-        divPlayer1.appendChild(img);
-    } else {
-        divComputer.appendChild(img);
-    }
-}
-
-
 //// SUM OF CARD VALUE ///
 const sumCard = (card) => {
-    if (!specialLetters.includes(card.charAt(0))) {
-        if(card.length > 2){
-            let number = card.substring(0,2)
-            currentPlayer.sum = currentPlayer.sum + Number(number) ;
-        }else{           
-            currentPlayer.sum = currentPlayer.sum + Number(card.charAt(0));
-        }
-    } else {
-        switch (card.charAt(0)) {
-            case 'A': currentPlayer.sum = currentPlayer.sum + 1;
-                break;
-            case 'J': currentPlayer.sum = currentPlayer.sum + 11;
-                break;
-            case 'Q': currentPlayer.sum = currentPlayer.sum + 12;
-                break;
-            case 'K': currentPlayer.sum = currentPlayer.sum + 13;
-                break;
-        }
-    }
+    let value = card.substring(0, card.length - 1)
+    value = (isNaN(value))?(value==='A')? 11:10:Number(value);
+    currentPlayer.sum = currentPlayer.sum + value;
+    renderSum();
+    return check21();
+}
+
+/// CHECK SUM ///
+const check21 = ()=>{
     if (currentPlayer.sum > 21) {
         let otherPlayer = player1.name === currentPlayer.name ? computer : player1;
         setTimeout(() => {
@@ -119,7 +117,6 @@ const sumCard = (card) => {
     }
 }
 
-
 ////// COMPUTER GAME ///
 const computerPlay = () => {
     let interval = setInterval(() => {
@@ -127,10 +124,9 @@ const computerPlay = () => {
             getCard();
             return;
         } else if (computer.sum === 21) {
-            playerWon(computer)
             clearInterval(interval);
             return;
-        } else {
+        } else if(computer.sum < 21){
             if (computer.sum > player1.sum) {
                 playerWon(computer)
                 clearInterval(interval);
@@ -138,13 +134,16 @@ const computerPlay = () => {
             } else if (computer.sum === player1.sum) {
                 alert('EMPATE')
                 restore();
-                clearInterval();
+                clearInterval(interval);
                 return;
             } else {
                 getCard();
                 return;
             }
-        }
+        }else{
+            clearInterval(interval);
+            return
+        } 
     }, 500)
 }
 
@@ -166,7 +165,7 @@ const restore = () => {
     player1.sum = 0;
     computer.sum = 0;
     currentPlayer = player1;
-
+    
     let divPlayer1 = document.getElementById('jugador-cartas');
     let divComputer = document.getElementById('computer');
     let player1Imgs = divPlayer1.getElementsByTagName('img');
@@ -180,6 +179,7 @@ const restore = () => {
         computerImgs[0].remove();
     }
 
+    renderSum();
     createDeck();
 }
 
